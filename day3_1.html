@@ -1,0 +1,17 @@
+<h2 id="counter">0</h2>
+<button id="increase">+</button>
+<button id="decrease">-</button>
+
+<script>
+  let count = 0;
+
+  document.getElementById("increase").addEventListener("click", function () {
+    count += 1;
+    document.getElementById("counter").textContent = count;
+  });
+
+  document.getElementById("decrease").addEventListener("click", function () {
+    count -= 1;
+    document.getElementById("counter").textContent = count;
+  });
+</script>

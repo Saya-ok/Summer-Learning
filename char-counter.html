@@ -1,0 +1,26 @@
+<h2>TYPE SOMETHING MF</h2>
+
+<textarea
+  id="textInput"
+  rows="5"
+  cols="40"
+  placeholder="Start typing..."
+></textarea>
+
+<p id="counter">0 / 100</p>
+
+<script>
+  const inputArea = document.getElementById("textInput");
+  const counter = document.getElementById("counter");
+
+  inputArea.addEventListener("input", function () {
+    const length = inputArea.value.length;
+    counter.textContent = `${length} / 100`;
+
+    if (length > 100) {
+      counter.style.color = "red";
+    } else {
+      counter.style.color = "black";
+    }
+  });
+</script>

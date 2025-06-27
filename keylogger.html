@@ -1,0 +1,32 @@
+<h2>PRESS ANY KEY</h2>
+
+<p id="log">You pressed: <span id="key"></span></p>
+<p>Key code: <span id="code"></span></p>
+
+<style>
+  #key {
+    font-weight: bold;
+    transition: color 0.2 ease;
+  }
+
+  .active {
+    color: red;
+  }
+</style>
+
+<script>
+  const keySpan = document.getElementById("key");
+  const codeSpan = document.getElementById("code");
+
+  document.addEventListener("keydown", function (event) {
+    keySpan.textContent = event.key;
+    codeSpan.textContent = event.code;
+    keySpan.classList.add("active");
+    codeSpan.classList.add("active");
+
+    setTimeout(() => {
+      keySpan.classList.remove("active");
+      codeSpan.classList.remove("active");
+    }, 200);
+  });
+</script>

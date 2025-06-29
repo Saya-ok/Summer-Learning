@@ -15,11 +15,24 @@
 
   let notes = JSON.parse(localStorage.getItem("notes")) || [];
 
-  notes.forEach(function (noteText) {
+  const addToNoteList = function (noteText) {
     const li = document.createElement("li");
     li.textContent = noteText;
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "❌";
+    deleteBtn.addEventListener("click", function () {
+      notes = notes.filter((n) => n !== noteText);
+      localStorage.setItem("notes", JSON.stringify(notes));
+
+      li.remove();
+    });
+
+    li.appendChild(deleteBtn);
     noteArea.appendChild(li);
-  });
+  };
+
+  notes.forEach(addToNoteList);
 
   document.addEventListener("keydown", function (event) {
     if (event.key === "/") {
@@ -35,11 +48,9 @@
       const noteText = textArea.value.trim();
 
       if (noteText !== "") {
-        const li = document.createElement("li");
-        li.textContent = noteText;
-        noteArea.appendChild(li);
-
+        addToNoteList(noteText);
         notes.push(noteText);
+
         localStorage.setItem("notes", JSON.stringify(notes));
 
         textArea.value = "";

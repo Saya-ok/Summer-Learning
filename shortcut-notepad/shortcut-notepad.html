@@ -13,6 +13,14 @@
   const textArea = document.getElementById("noteInput");
   const noteArea = document.getElementById("noteList");
 
+  let notes = JSON.parse(localStorage.getItem("notes")) || [];
+
+  notes.forEach(function (noteText) {
+    const li = document.createElement("li");
+    li.textContent = noteText;
+    noteArea.appendChild(li);
+  });
+
   document.addEventListener("keydown", function (event) {
     if (event.key === "/") {
       event.preventDefault();
@@ -30,6 +38,10 @@
         const li = document.createElement("li");
         li.textContent = noteText;
         noteArea.appendChild(li);
+
+        notes.push(noteText);
+        localStorage.setItem("notes", JSON.stringify(notes));
+
         textArea.value = "";
       }
     }

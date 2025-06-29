@@ -1,0 +1,37 @@
+<h2>Shortcut Notepad</h2>
+
+<textarea
+  id="noteInput"
+  rows="5"
+  cols="40"
+  placeholder="Type your note..."
+></textarea>
+
+<ul id="noteList"></ul>
+
+<script>
+  const textArea = document.getElementById("noteInput");
+  const noteArea = document.getElementById("noteList");
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "/") {
+      event.preventDefault();
+      textArea.focus();
+    }
+
+    if (event.key === "Escape") {
+      textArea.value = "";
+    }
+
+    if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
+      const noteText = textArea.value.trim();
+
+      if (noteText !== "") {
+        const li = document.createElement("li");
+        li.textContent = noteText;
+        noteArea.appendChild(li);
+        textArea.value = "";
+      }
+    }
+  });
+</script>

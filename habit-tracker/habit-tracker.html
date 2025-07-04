@@ -1,0 +1,112 @@
+<main>
+  <h2>Habit Tracker</h2>
+
+  <textarea
+    id="textArea"
+    rows="5"
+    cols="40"
+    placeholder="Type something..."
+  ></textarea>
+
+  <button id="addButton">Add</button>
+
+  <ul id="habitArea"></ul>
+</main>
+
+<script>
+  const addHabitBtn = document.getElementById("addButton");
+  const textBox = document.getElementById("textArea");
+  const habitBox = document.getElementById("habitArea");
+
+  let habits = JSON.parse(localStorage.getItem("habits")) || [];
+
+  const addHabitToList = function (habit) {
+    const li = document.createElement("li");
+    li.textContent = habit.name;
+
+    habit.days = habit.days || [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+    ];
+
+    habit.days.forEach((done, index) => {
+      const dayBtn = document.createElement("button");
+      dayBtn.textContent = `Day ${index + 1}`;
+      if (done) dayBtn.classList.add("done");
+
+      dayBtn.addEventListener("click", function () {
+        habit.days[index] = !habit.days[index];
+        localStorage.setItem("habits", JSON.stringify(habits));
+        dayBtn.classList.toggle("done");
+      });
+
+      li.appendChild(dayBtn);
+    });
+
+    const delBtn = document.createElement("button");
+    delBtn.textContent = "❌";
+    delBtn.addEventListener("click", function () {
+      habits = habits.filter((h) => h !== habit);
+      localStorage.setItem("habits", JSON.stringify(habits));
+      li.remove();
+    });
+
+    li.appendChild(delBtn);
+    habitBox.appendChild(li);
+  };
+
+  addHabitBtn.addEventListener("click", function () {
+    if (textBox.value.trim() !== "") {
+      const newHabit = {
+        name: textBox.value.trim(),
+        days: [false, false, false, false, false, false, false],
+      };
+
+      habits.push(newHabit);
+      localStorage.setItem("habits", JSON.stringify(habits));
+      addHabitToList(newHabit);
+      textBox.value = "";
+      textBox.focus();
+    } else {
+      alert("Please enter a habit.");
+    }
+  });
+
+  habits.forEach(addHabitToList);
+</script>
+
+<style>
+  body {
+    background-color: rgb(50, 50, 50);
+    color: white;
+    overflow: hidden;
+  }
+
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  #textArea {
+    background-color: rgb(50, 50, 50);
+  }
+
+  #addButton {
+    background-color: rgb(50, 50, 50);
+    color: white;
+    height: 40px;
+    width: 60px;
+  }
+
+  .done {
+    background-color: green;
+  }
+</style>
